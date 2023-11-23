@@ -37,6 +37,8 @@ DHTesp dhtSensor8;
 DHTesp dhtSensor9;
 /** Initialize DHT sensor 10 */
 DHTesp dhtSensor10;
+/** Initialize DHT sensor 10 */
+DHTesp dhtSensor11;
 
 /** Task handle for the light value read task */
 TaskHandle_t tempTaskHandle = NULL;
@@ -46,20 +48,22 @@ int dhtPin1 = 5;
 int dhtPin2 = 6;
 /** Pin number for DHT22 3 data pin */
 int dhtPin3 = 10;
-/** Pin number for DHT22 1 data pin */
+/** Pin number for DHT22 4 data pin */
 int dhtPin4 = 11;
-/** Pin number for DHT22 2 data pin */
+/** Pin number for DHT22 5 data pin */
 int dhtPin5 = 12;
-/** Pin number for DHT22 3 data pin */
+/** Pin number for DHT22 6 data pin */
 int dhtPin6 = 13;
-/** Pin number for DHT22 1 data pin */
+/** Pin number for DHT22 7 data pin */
 int dhtPin7 = 14;
-/** Pin number for DHT22 2 data pin */
+/** Pin number for DHT22 8 data pin */
 int dhtPin8 = 15;
-/** Pin number for DHT22 3 data pin */
+/** Pin number for DHT22 9 data pin */
 int dhtPin9 = 16;
-/** Pin number for DHT22 3 data pin */
+/** Pin number for DHT22 10 data pin */
 int dhtPin10 = 17;
+/** Pin number for DHT22 11 data pin */
+int dhtPin10 = 18;
 
 /** Ticker for temperature reading */
 Ticker tempTicker;
@@ -85,6 +89,8 @@ TempAndHumidity sensor8Data;
 TempAndHumidity sensor9Data;
 /** Data from sensor 10 */
 TempAndHumidity sensor10Data;
+/** Data from sensor 11 */
+TempAndHumidity sensor11Data;
 
 /* Flag if main loop is running */
 bool tasksEnabled = false;
@@ -104,15 +110,16 @@ void tempTask(void *pvParameters) {
 			// Reading temperature for humidity takes about 250 milliseconds!
 			// Sensor readings may also be up to 2 seconds 'old' (it's a very slow sensor)
 			sensor1Data = dhtSensor1.getTempAndHumidity();	// Read values from sensor 1
-			sensor2Data = dhtSensor2.getTempAndHumidity();	// Read values from sensor 1
-			sensor3Data = dhtSensor3.getTempAndHumidity();	// Read values from sensor 1
-			sensor4Data = dhtSensor4.getTempAndHumidity();	// Read values from sensor 1
-			sensor5Data = dhtSensor5.getTempAndHumidity();	// Read values from sensor 1
-			sensor6Data = dhtSensor6.getTempAndHumidity();	// Read values from sensor 1
-			sensor7Data = dhtSensor7.getTempAndHumidity();	// Read values from sensor 1
-			sensor8Data = dhtSensor8.getTempAndHumidity();	// Read values from sensor 1
-			sensor9Data = dhtSensor9.getTempAndHumidity();	// Read values from sensor 1
-			sensor10Data = dhtSensor10.getTempAndHumidity();	// Read values from sensor 1
+			sensor2Data = dhtSensor2.getTempAndHumidity();	// Read values from sensor 2
+			sensor3Data = dhtSensor3.getTempAndHumidity();	// Read values from sensor 3
+			sensor4Data = dhtSensor4.getTempAndHumidity();	// Read values from sensor 4
+			sensor5Data = dhtSensor5.getTempAndHumidity();	// Read values from sensor 5
+			sensor6Data = dhtSensor6.getTempAndHumidity();	// Read values from sensor 6
+			sensor7Data = dhtSensor7.getTempAndHumidity();	// Read values from sensor 7
+			sensor8Data = dhtSensor8.getTempAndHumidity();	// Read values from sensor 8
+			sensor9Data = dhtSensor9.getTempAndHumidity();	// Read values from sensor 9
+			sensor10Data = dhtSensor10.getTempAndHumidity(); // Read values from sensor 10
+			sensor10Data = dhtSensor11.getTempAndHumidity(); // Read values from sensor 11
 			gotNewTemperature = true;
 		}
 		vTaskSuspend(NULL);
@@ -143,20 +150,22 @@ void setup() {
 	dhtSensor2.setup(dhtPin2, DHTesp::DHT22);
 	// Initialize temperature sensor 3
 	dhtSensor3.setup(dhtPin3, DHTesp::DHT22);
-	// Initialize temperature sensor 1
+	// Initialize temperature sensor 4
 	dhtSensor4.setup(dhtPin4, DHTesp::DHT22);
-	// Initialize temperature sensor 2
+	// Initialize temperature sensor 5
 	dhtSensor5.setup(dhtPin5, DHTesp::DHT22);
-	// Initialize temperature sensor 3
+	// Initialize temperature sensor 6
 	dhtSensor6.setup(dhtPin6, DHTesp::DHT22);
-	// Initialize temperature sensor 1
+	// Initialize temperature sensor 7
 	dhtSensor7.setup(dhtPin7, DHTesp::DHT22);
-	// Initialize temperature sensor 2
+	// Initialize temperature sensor 8
 	dhtSensor8.setup(dhtPin8, DHTesp::DHT22);
-	// Initialize temperature sensor 3
+	// Initialize temperature sensor 9
 	dhtSensor9.setup(dhtPin9, DHTesp::DHT22);
-	// Initialize temperature sensor 3
+	// Initialize temperature sensor 10
 	dhtSensor10.setup(dhtPin10, DHTesp::DHT22);
+	// Initialize temperature sensor 11
+	dhtSensor11.setup(dhtPin11, DHTesp::DHT22);
 
 	// Start task to get temperature
 	xTaskCreatePinnedToCore(
@@ -207,6 +216,8 @@ void loop() {
 		Serial.println("Temp: " + String(sensor9Data.temperature,2) + "'C Humidity: " + String(sensor9Data.humidity,1) + "%");
 		Serial.println("Sensor 10 data:");
 		Serial.println("Temp: " + String(sensor10Data.temperature,2) + "'C Humidity: " + String(sensor10Data.humidity,1) + "%");
+		Serial.println("Sensor 11 data:");
+		Serial.println("Temp: " + String(sensor11Data.temperature,2) + "'C Humidity: " + String(sensor11Data.humidity,1) + "%");
 		gotNewTemperature = false;
 	}
 } // End of loop
